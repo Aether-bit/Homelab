@@ -9,7 +9,7 @@ Thumbs.db
 .idea/
 *.code-workspace
 
-# Secrets and local config (the important one)
+# Secrets and local config 
 .env
 .env.local
 *.secret
@@ -23,21 +23,21 @@ credentials/
 tmp/
 temp/
 
-# Python (in case you write any scripts)
+# Python 
 __pycache__/
 *.pyc
 .venv/
 venv/
 
-# Terraform (you'll use this eventually)
+# Terraform 
 *.tfstate
 *.tfstate.*
 .terraform/
 *.tfvars
 
-# Ansible (same)
+# Ansible 
 *.retry
 
-# Local-only notes you don't want public
+# Local-only notes
 notes/private/
 scratch/
