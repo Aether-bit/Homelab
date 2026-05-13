@@ -10,3 +10,5 @@ Currently working through Network+. Finding it fairly straightforward so far.
 
 ## Notes for myself
 - (anything useful — concepts that clicked, things you want to revisit)
+
+##Update
