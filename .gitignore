@@ -1,0 +1,43 @@
+# OS-generated files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Editor / IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Secrets and local config (the important one)
+.env
+.env.local
+*.secret
+secrets/
+credentials/
+*.pem
+*.key
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
+# Python (in case you write any scripts)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Terraform (you'll use this eventually)
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+
+# Ansible (same)
+*.retry
+
+# Local-only notes you don't want public
+notes/private/
+scratch/
