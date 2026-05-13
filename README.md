@@ -1,10 +1,6 @@
 # Homelab
 Notes, configs, and projects as I learn infrastructure engineering
 
-# Homelab
-
-Notes, configs, and projects as I learn infrastructure engineering.
-
 ## Current focus
 
 - Studying CompTIA Network+
