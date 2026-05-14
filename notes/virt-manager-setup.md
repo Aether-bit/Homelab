@@ -12,7 +12,7 @@
 5. Rebooted to pick up group membership
 6. Verified `default` virtual network active: `sudo virsh net-list --all`
 
-## Gotcha I hit
+## Issue I ran into
 Logging out and back in didn't pick up the new group membership on KDE.
 A reboot fixed it. Worth remembering for next time.
 
