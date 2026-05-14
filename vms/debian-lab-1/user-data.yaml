@@ -1,0 +1,17 @@
+#cloud-config
+hostname: debian-lab-1
+users:
+  - name: kieran
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDYIWwT04aI6dWOdtClBf5L0hurLJrLXORhdXap1YQ45 kieran@cachyos-homelab
+chpasswd:
+  list: |
+    kieran:changeme
+  expire: false
+package_update: true
+packages:
+  - vim
+  - htop
+  - curl

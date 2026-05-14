@@ -1,0 +1,13 @@
+Host debian
+    HostName 192.168.122.50
+    User kieran
+    IdentityFile ~/.ssh/id_ed25519
+
+Host ubuntu
+    HostName 192.168.122.51
+    User kieran
+    IdentityFile ~/.ssh/id_ed25519
+
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
