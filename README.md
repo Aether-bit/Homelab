@@ -45,7 +45,7 @@ stays usable for normal daily work alongside the lab.
 
 - **Infrastructure as code** — Terraform for provisioning, Ansible for
   configuration management, replacing manual VM setup with reproducible codes
-  **Containers** — Docker fundamentals done (see session 4); Kubernetes basics next
+- **Containers** — Docker done: fundamentals, volumes, Compose (sessions 4-5); Kubernetes next
 - **CI/CD** — GitHub Actions pipelines, starting with linting and testing
   the configs and scripts in this repo
 - **Cloud (Azure)** — working toward AZ-900, then AZ-104; deploying the
