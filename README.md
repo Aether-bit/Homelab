@@ -14,6 +14,8 @@ I'm working toward a Cloud / DevOps Engineer role. The lab starts with solid
 Linux and networking fundamentals, then builds upward into virtualisation,
 infrastructure as code, containers, CI/CD, and Azure.
 
+See [roadmap.md](roadmap.md) for my certification path and skills roadmap.
+
 ## Host
 
 - **OS:** CachyOS (Arch-based Linux), daily-driven
