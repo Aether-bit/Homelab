@@ -49,3 +49,16 @@ These allow traffic in from and out to Docker's `docker0` bridge through the
 This is a lab-grade fix — it broadly accepts all `docker0` forward traffic,
 acceptable on a personal lab box but looser than a hardened production host
 would want.
+
+## Update 2026-05-26 - Compose bridge not covered
+
+Docker Compose creates its own bridge per project (br-<hash>), not docker0, so the original docker0-only nftables rule did not cover Compose traffic - same policy drop symptom returned.
+
+Fix: generalised the drop-in to a br-* wildcard so all current and future Compose networks are covered.
+
+Final /etc/nftables.d/docker.nft:
+
+    add rule inet filter forward iifname "docker0" accept
+    add rule inet filter forward oifname "docker0" accept
+    add rule inet filter forward iifname "br-*" accept
+    add rule inet filter forward oifname "br-*" accept
