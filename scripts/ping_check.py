@@ -2,7 +2,6 @@ import subprocess
 from datetime import datetime
 
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-print(f"Ping check run at: {timestamp}\n")
 
 hosts = [
     ("8.8.8.8", "Google DNS"),
@@ -12,9 +11,11 @@ hosts = [
     ("172.16.0.1", "Private Range"),
 ]
 
-for ip, hostname in hosts:
-    result = subprocess.run(["ping", "-c", "1", ip], capture_output=True)
-    if result.returncode == 0:
-        print(f"{hostname} ({ip}) - UP")
-    else:
-        print(f"{hostname} ({ip}) - DOWN")
+with open("ping_results.txt", "w") as f:
+    f.write(f"Ping check run at: {timestamp}\n\n")
+    for ip, hostname in hosts:
+        result = subprocess.run(["ping", "-c", "1", ip], capture_output=True)
+        status = "UP" if result.returncode == 0 else "DOWN"
+        line = f"{hostname} ({ip}) - {status}"
+        print(line)
+        f.write(line + "\n")
