@@ -1,6 +1,8 @@
 import subprocess
-import platform
+import os
 from datetime import datetime
+
+os.makedirs("logs", exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -10,13 +12,11 @@ domains = [
     "bbc.co.uk",
 ]
 
-with open("dns_results.txt", "w") as f:
+with open("logs/dns_results.txt", "w") as f:
     f.write(f"DNS check run at: {timestamp}\n\n")
     for domain in domains:
         result = subprocess.run(["nslookup", domain], capture_output=True, text=True)
-        if result.returncode == 0:
-            line = f"{domain} - RESOLVING"
-        else:
-            line = f"{domain} - FAILED"
+        status = "RESOLVING" if result.returncode == 0 else "FAILED"
+        line = f"{domain} - {status}"
         print(line)
         f.write(line + "\n")

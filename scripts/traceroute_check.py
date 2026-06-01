@@ -1,6 +1,9 @@
 import subprocess
 import platform
+import os
 from datetime import datetime
+
+os.makedirs("logs", exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -14,7 +17,7 @@ targets = [
     ("1.1.1.1", "Cloudflare DNS"),
 ]
 
-with open("traceroute_results.txt", "w") as f:
+with open("logs/traceroute_results.txt", "w") as f:
     f.write(f"Traceroute check run at: {timestamp}\n\n")
     for ip, hostname in targets:
         print(f"Tracing route to {hostname} ({ip})...")

@@ -1,7 +1,10 @@
 import subprocess
 import platform
 import re
+import os
 from datetime import datetime
+
+os.makedirs("logs", exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -10,7 +13,6 @@ if platform.system() == "Windows":
 else:
     ping_flag = "-c"
 
-# Read hosts from file
 hosts = []
 with open("hosts.txt", "r") as f:
     for line in f:
@@ -19,7 +21,7 @@ with open("hosts.txt", "r") as f:
             parts = line.split(" ", 1)
             hosts.append((parts[0], parts[1]))
 
-with open("ping_results.txt", "w") as f:
+with open("logs/ping_results.txt", "w") as f:
     f.write(f"Ping check run at: {timestamp}\n\n")
     for ip, hostname in hosts:
         result = subprocess.run(["ping", ping_flag, "1", ip], capture_output=True, text=True)

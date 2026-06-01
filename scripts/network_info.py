@@ -1,6 +1,9 @@
 import subprocess
 import platform
+import os
 from datetime import datetime
+
+os.makedirs("logs", exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -13,6 +16,6 @@ else:
 
 print(result.stdout)
 
-with open("network_info.txt", "w") as f:
+with open("logs/network_info.txt", "w") as f:
     f.write(f"Network interface info at: {timestamp}\n\n")
     f.write(result.stdout)

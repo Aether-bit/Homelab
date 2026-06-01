@@ -1,5 +1,8 @@
 import socket
+import os
 from datetime import datetime
+
+os.makedirs("logs", exist_ok=True)
 
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -10,7 +13,7 @@ ips = [
     "192.168.1.1",
 ]
 
-with open("reverse_dns_results.txt", "w") as f:
+with open("logs/reverse_dns_results.txt", "w") as f:
     f.write(f"Reverse DNS lookup at: {timestamp}\n\n")
     for ip in ips:
         try:
