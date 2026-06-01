@@ -1,10 +1,20 @@
 import subprocess
+from datetime import datetime
 
-ips = ["8.8.8.8", "1.1.1.1", "192.168.1.1", "10.0.0.1", "172.16.0.1"]
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+print(f"Ping check run at: {timestamp}\n")
 
-for ip in ips:
+hosts = [
+    ("8.8.8.8", "Google DNS"),
+    ("1.1.1.1", "Cloudflare DNS"),
+    ("192.168.1.1", "Local Gateway"),
+    ("10.0.0.1", "Internal Network"),
+    ("172.16.0.1", "Private Range"),
+]
+
+for ip, hostname in hosts:
     result = subprocess.run(["ping", "-c", "1", ip], capture_output=True)
     if result.returncode == 0:
-        print(f"{ip} - UP")
+        print(f"{hostname} ({ip}) - UP")
     else:
-        print(f"{ip} - DOWN")
+        print(f"{hostname} ({ip}) - DOWN")
