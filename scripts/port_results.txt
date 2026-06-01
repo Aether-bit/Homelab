@@ -1,0 +1,6 @@
+Port check run at: 2026-06-01 13:01:53
+
+Google DNS (8.8.8.8:53) - OPEN
+Cloudflare DNS (1.1.1.1:53) - OPEN
+Google HTTPS (8.8.8.8:443) - OPEN
+Local Gateway HTTP (192.168.1.1:80) - CLOSED
