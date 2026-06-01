@@ -1,0 +1,5 @@
+DNS check run at: 2026-06-01 12:58:59
+
+google.com - RESOLVING
+cloudflare.com - RESOLVING
+bbc.co.uk - RESOLVING
