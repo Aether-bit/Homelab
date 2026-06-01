@@ -1,0 +1,2 @@
+
+Average: 11.7ms | High: 12.4ms | Low: 11.3ms
