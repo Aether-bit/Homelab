@@ -10,13 +10,14 @@ if platform.system() == "Windows":
 else:
     ping_flag = "-c"
 
-hosts = [
-    ("8.8.8.8", "Google DNS"),
-    ("1.1.1.1", "Cloudflare DNS"),
-    ("192.168.1.1", "Local Gateway"),
-    ("10.0.0.1", "Internal Network"),
-    ("172.16.0.1", "Private Range"),
-]
+# Read hosts from file
+hosts = []
+with open("hosts.txt", "r") as f:
+    for line in f:
+        line = line.strip()
+        if line:
+            parts = line.split(" ", 1)
+            hosts.append((parts[0], parts[1]))
 
 with open("ping_results.txt", "w") as f:
     f.write(f"Ping check run at: {timestamp}\n\n")
