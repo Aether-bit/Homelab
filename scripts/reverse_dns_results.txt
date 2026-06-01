@@ -1,0 +1,6 @@
+Reverse DNS lookup at: 2026-06-01 13:03:45
+
+8.8.8.8 -> dns.google
+1.1.1.1 -> one.one.one.one
+62.172.102.70 -> No PTR record found
+192.168.1.1 -> No PTR record found
