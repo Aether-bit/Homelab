@@ -60,6 +60,33 @@ def dns_check():
         f.write(line + "\n\n")
         f.write(result.stdout)
 
+def dns_propagation():
+    print("\nDNS Propagation Check\n")
+    domain = input("Enter domain to check: ")
+    
+    servers = [
+        ("8.8.8.8", "Google"),
+        ("1.1.1.1", "Cloudflare"),
+        ("9.9.9.9", "Quad9"),
+        ("208.67.222.222", "OpenDNS"),
+        ("84.2.42.42", "Andrews & Arnold"),
+    ]
+    
+    results = []
+    
+    for server_ip, server_name in servers:
+        result = subprocess.run(["nslookup", domain, server_ip], capture_output=True, text=True)
+        ip_match = re.search(r'Address:\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', result.stdout)
+        resolved = ip_match.group(1) if ip_match else "FAILED"
+        line = f"{server_name:<20} ({server_ip}) -> {resolved}"
+        print(line)
+        results.append(line)
+    
+    with open("logs/dns_propagation.txt", "w") as f:
+        f.write(f"Ticket: {ticket} | DNS propagation check at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        f.write(f"Domain: {domain}\n\n")
+        f.write("\n".join(results))
+
 def traceroute_check():
     target = input("\nEnter IP or domain to trace: ")
     print(f"\nTracing route to {target}...\n")
@@ -165,6 +192,21 @@ def network_info():
         f.write(f"Ticket: {ticket} | Network info at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         f.write(result.stdout)
 
+def subnet_calc():
+    print("\nSubnet Calculator\n")
+    try:
+        import ipaddress
+        network = input("Enter IP and subnet (e.g. 192.168.1.0/24): ")
+        net = ipaddress.IPv4Network(network, strict=False)
+        print(f"\nNetwork:    {net.network_address}")
+        print(f"Broadcast:  {net.broadcast_address}")
+        print(f"Subnet mask:{net.netmask}")
+        print(f"Usable IPs: {net.num_addresses - 2}")
+        print(f"First host: {list(net.hosts())[0]}")
+        print(f"Last host:  {list(net.hosts())[-1]}")
+    except ValueError as e:
+        print(f"Invalid input: {e}")
+
 while True:
     print("\n=== NOC Toolkit ===")
     print(f"Ticket: {ticket}")
@@ -175,6 +217,8 @@ while True:
     print("5. Latency Monitor")
     print("6. Reverse DNS Lookup")
     print("7. Network Interface Info")
+    print("8. Subnet Calculator")
+    print("9. DNS Propagation Check")
     print("0. Exit")
 
     choice = input("\nSelect: ")
@@ -193,6 +237,10 @@ while True:
         reverse_dns()
     elif choice == "7":
         network_info()
+    elif choice == "8":
+        subnet_calc()
+    elif choice == "9":
+        dns_propagation()
     elif choice == "0":
                 print("Exiting.")
                 if platform.system() == "Windows":

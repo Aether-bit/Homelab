@@ -1,0 +1,9 @@
+Ticket: NO-REF | DNS propagation check at: 2026-06-10 20:01:58
+
+Domain: google.com
+
+Google               (8.8.8.8) -> 8.8.8.8
+Cloudflare           (1.1.1.1) -> 1.1.1.1
+Quad9                (9.9.9.9) -> 9.9.9.9
+OpenDNS              (208.67.222.222) -> 208.67.222.222
+Andrews & Arnold     (84.2.42.42) -> FAILED
