@@ -63,12 +63,35 @@ def dns_check():
 def traceroute_check():
     target = input("\nEnter IP or domain to trace: ")
     print(f"\nTracing route to {target}...\n")
+    
     result = subprocess.run([trace_cmd, target], capture_output=True, text=True)
-    print(result.stdout)
-
+    lines = result.stdout.splitlines()
+    
+    import urllib.request
+    import json
+    
+    output_lines = []
+    
+    for line in lines:
+        ip_match = re.search(r'(\d{1,3}\.){3}\d{1,3}', line)
+        if ip_match:
+            ip = ip_match.group(0)
+            try:
+                url = f"https://ipinfo.io/{ip}/json"
+                req = urllib.request.urlopen(url, timeout=2)
+                data = json.loads(req.read())
+                org = data.get("org", "Unknown")
+            except:
+                org = "Lookup failed"
+            annotated = f"{line}  [{org}]"
+        else:
+            annotated = line
+        print(annotated)
+        output_lines.append(annotated)
+    
     with open("logs/traceroute_results.txt", "w") as f:
         f.write(f"Ticket: {ticket} | Traceroute at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-        f.write(result.stdout)
+        f.write("\n".join(output_lines))
 
 def port_check():
     print("\nPort Check\n")
