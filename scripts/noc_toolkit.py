@@ -47,45 +47,38 @@ def ping_check():
 def dns_check():
     print("\nDNS Check\n")
     domain = input("Enter domain to look up: ")
-    dns_server = input("Enter DNS server to query (default 8.8.8.8): ") or "8.8.8.8"
+    mode = input("Single server or propagation check? (s/p, default s): ") or "s"
 
-    result = subprocess.run(["nslookup", domain, dns_server], capture_output=True, text=True)
-    status = "RESOLVING" if result.returncode == 0 else "FAILED"
-    line = f"{domain} via {dns_server} - {status}"
-    print(line)
-    print(result.stdout)
-
-    with open("logs/dns_results.txt", "w") as f:
-        f.write(f"Ticket: {ticket} | DNS check run at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-        f.write(line + "\n\n")
-        f.write(result.stdout)
-
-def dns_propagation():
-    print("\nDNS Propagation Check\n")
-    domain = input("Enter domain to check: ")
-    
-    servers = [
-        ("8.8.8.8", "Google"),
-        ("1.1.1.1", "Cloudflare"),
-        ("9.9.9.9", "Quad9"),
-        ("208.67.222.222", "OpenDNS"),
-        ("84.2.42.42", "Andrews & Arnold"),
-    ]
-    
-    results = []
-    
-    for server_ip, server_name in servers:
-        result = subprocess.run(["nslookup", domain, server_ip], capture_output=True, text=True)
-        ip_match = re.search(r'Address:\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})', result.stdout)
-        resolved = ip_match.group(1) if ip_match else "FAILED"
-        line = f"{server_name:<20} ({server_ip}) -> {resolved}"
+    if mode == "p":
+        servers = [
+            ("8.8.8.8", "Google"),
+            ("1.1.1.1", "Cloudflare"),
+            ("9.9.9.9", "Quad9"),
+            ("208.67.222.222", "OpenDNS"),
+            ("149.112.112.112", "Quad9 Secondary"),
+        ]
+        results = []
+        for server_ip, server_name in servers:
+            result = subprocess.run(["nslookup", domain, server_ip], capture_output=True, text=True)
+            resolved = "RESOLVED" if result.returncode == 0 else "FAILED"
+            line = f"{server_name:<20} ({server_ip}) -> {resolved}"
+            print(line)
+            results.append(line)
+        with open("logs/dns_results.txt", "w") as f:
+            f.write(f"Ticket: {ticket} | DNS propagation check at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            f.write(f"Domain: {domain}\n\n")
+            f.write("\n".join(results))
+    else:
+        dns_server = input("Enter DNS server to query (default 8.8.8.8): ") or "8.8.8.8"
+        result = subprocess.run(["nslookup", domain, dns_server], capture_output=True, text=True)
+        status = "RESOLVING" if result.returncode == 0 else "FAILED"
+        line = f"{domain} via {dns_server} - {status}"
         print(line)
-        results.append(line)
-    
-    with open("logs/dns_propagation.txt", "w") as f:
-        f.write(f"Ticket: {ticket} | DNS propagation check at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-        f.write(f"Domain: {domain}\n\n")
-        f.write("\n".join(results))
+        print(result.stdout)
+        with open("logs/dns_results.txt", "w") as f:
+            f.write(f"Ticket: {ticket} | DNS check run at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+            f.write(line + "\n\n")
+            f.write(result.stdout)
 
 def traceroute_check():
     target = input("\nEnter IP or domain to trace: ")
@@ -218,7 +211,6 @@ while True:
     print("6. Reverse DNS Lookup")
     print("7. Network Interface Info")
     print("8. Subnet Calculator")
-    print("9. DNS Propagation Check")
     print("0. Exit")
 
     choice = input("\nSelect: ")
@@ -239,8 +231,6 @@ while True:
         network_info()
     elif choice == "8":
         subnet_calc()
-    elif choice == "9":
-        dns_propagation()
     elif choice == "0":
                 print("Exiting.")
                 if platform.system() == "Windows":
