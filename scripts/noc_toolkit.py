@@ -20,19 +20,28 @@ def ping_check():
     print("\nPing Check\n")
     ip = input("Enter target IP: ")
     label = input("Enter a label: ")
+
+    result = subprocess.run(["ping", ping_flag, "5", ip], capture_output=True, text=True)
     
-    result = subprocess.run(["ping", ping_flag, "1", ip], capture_output=True, text=True)
+    print(result.stdout)
+    
+    loss_match = re.search(r"(\d+)% packet loss", result.stdout)
+    loss = loss_match.group(1) + "%" if loss_match else "unknown"
+
     if result.returncode == 0:
         match = re.search(r"time[=<]([\d.]+)", result.stdout)
         ms = match.group(1) + "ms" if match else "unknown"
-        line = f"{label} ({ip}) - UP [{ms}]"
+        summary = f"{label} ({ip}) - UP [{ms}] [Loss: {loss}]"
     else:
-        line = f"{label} ({ip}) - DOWN"
-    print(line)
+        summary = f"{label} ({ip}) - DOWN [Loss: {loss}]"
     
+    print(summary)
+
     with open("logs/ping_results.txt", "w") as f:
         f.write(f"Ping check run at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
-        f.write(line + "\n")
+        f.write(result.stdout + "\n")
+        f.write(summary + "\n")
+    
 def dns_check():
     print("\nDNS Check\n")
     domain = input("Enter domain to look up: ")
