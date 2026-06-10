@@ -63,32 +63,45 @@ def dns_check():
 def traceroute_check():
     target = input("\nEnter IP or domain to trace: ")
     print(f"\nTracing route to {target}...\n")
-    
+
     result = subprocess.run([trace_cmd, target], capture_output=True, text=True)
     lines = result.stdout.splitlines()
-    
+
     import urllib.request
     import json
-    
+
     output_lines = []
-    
+
     for line in lines:
+        hop_match = re.match(r'\s*(\d+)', line)
+        if not hop_match:
+            continue
+
+        hop = hop_match.group(1)
+
+        if '* * *' in line:
+            output_lines.append(f"{hop:<4} * * *  timeout")
+            print(output_lines[-1])
+            continue
+
         ip_match = re.search(r'(\d{1,3}\.){3}\d{1,3}', line)
-        if ip_match:
-            ip = ip_match.group(0)
-            try:
-                url = f"https://ipinfo.io/{ip}/json"
-                req = urllib.request.urlopen(url, timeout=2)
-                data = json.loads(req.read())
-                org = data.get("org", "Unknown")
-            except:
-                org = "Lookup failed"
-            annotated = f"{line}  [{org}]"
-        else:
-            annotated = line
-        print(annotated)
-        output_lines.append(annotated)
-    
+        ms_match = re.search(r'([\d.]+) ms', line)
+
+        ip = ip_match.group(0) if ip_match else "unknown"
+        ms = ms_match.group(1) + "ms" if ms_match else "unknown"
+
+        try:
+            url = f"https://ipinfo.io/{ip}/json"
+            req = urllib.request.urlopen(url, timeout=2)
+            data = json.loads(req.read())
+            org = data.get("org", "Unknown")
+        except:
+            org = "Lookup failed"
+
+        formatted = f"{hop:<4} {ip:<20} {ms:<12} [{org}]"
+        output_lines.append(formatted)
+        print(formatted)
+
     with open("logs/traceroute_results.txt", "w") as f:
         f.write(f"Ticket: {ticket} | Traceroute at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         f.write("\n".join(output_lines))
@@ -181,7 +194,9 @@ while True:
     elif choice == "7":
         network_info()
     elif choice == "0":
-        print("Exiting.")
-        break
+                print("Exiting.")
+                if platform.system() == "Windows":
+                    input("\nPress Enter to close...")
+                break
     else:
         print("Invalid option.")
