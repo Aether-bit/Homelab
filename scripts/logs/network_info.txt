@@ -1,4 +1,4 @@
-Network interface info at: 2026-06-01 13:04:40
+Network info at: 2026-06-01 13:18:04
 
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -12,9 +12,9 @@ Network interface info at: 2026-06-01 13:04:40
 3: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
     link/ether bc:f1:71:6c:5d:d6 brd ff:ff:ff:ff:ff:ff
     inet 192.168.1.193/24 brd 192.168.1.255 scope global dynamic noprefixroute wlan0
-       valid_lft 82040sec preferred_lft 82040sec
+       valid_lft 81236sec preferred_lft 81236sec
     inet6 2a00:23c6:41a1:7401:9abc:eaa4:d319:512b/64 scope global dynamic noprefixroute 
-       valid_lft 315359945sec preferred_lft 315359945sec
+       valid_lft 315359978sec preferred_lft 315359978sec
     inet6 fdaa:bbcc:ddee:0:22:9985:976:cbe1/64 scope global noprefixroute 
        valid_lft forever preferred_lft forever
     inet6 fe80::3205:e39f:f411:d8b/64 scope link noprefixroute 

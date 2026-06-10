@@ -1,5 +1,29 @@
-DNS check run at: 2026-06-01 12:58:59
+DNS check run at: 2026-06-10 18:32:20
 
-google.com - RESOLVING
-cloudflare.com - RESOLVING
-bbc.co.uk - RESOLVING
+google.com via 1.1.1.1 - RESOLVING
+
+Server:		1.1.1.1
+Address:	1.1.1.1#53
+
+Non-authoritative answer:
+Name:	google.com
+Address: 142.250.117.139
+Name:	google.com
+Address: 142.250.117.101
+Name:	google.com
+Address: 142.250.117.138
+Name:	google.com
+Address: 142.250.117.102
+Name:	google.com
+Address: 142.250.117.100
+Name:	google.com
+Address: 142.250.117.113
+Name:	google.com
+Address: 2a00:1450:4009:c04::8a
+Name:	google.com
+Address: 2a00:1450:4009:c04::66
+Name:	google.com
+Address: 2a00:1450:4009:c04::71
+Name:	google.com
+Address: 2a00:1450:4009:c04::65
+
